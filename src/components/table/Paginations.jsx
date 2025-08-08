@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { limit } from "../../sections/categories/pages/CategoriesTable";
+import Button from "../buttons/Button";
 
 const getVisiblePages = (currentPage, totalPages, maxVisibleNeighbors = 2) => {
   const pages = [];
@@ -32,7 +33,7 @@ const getVisiblePages = (currentPage, totalPages, maxVisibleNeighbors = 2) => {
 
 const Paginations = ({
   currentPage,
-  dataLength,
+  dataLength = 0,
   setPage,
   setSelectedItems,
 }) => {
@@ -48,9 +49,24 @@ const Paginations = ({
     [setPage, setSelectedItems]
   );
 
+  const getNextPage = useCallback(() => {
+    setPage((prev) => prev + 1);
+  }, [setPage]);
+  const getPrevPage = useCallback(() => {
+    setPage((prev) => prev - 1);
+  }, [setPage]);
+
   return (
-    <div className="pagination">
+    <footer className="pagination">
       <div className="page-container">
+        <Button
+          disabled={currentPage === 1}
+          onClick={getPrevPage}
+          btnType="cancel"
+          btnStyleType="outlin"
+        >
+          <i className="fa-solid fa-chevron-left" />
+        </Button>
         {pages?.map((page) =>
           typeof page === "number" ? (
             <button
@@ -64,11 +80,19 @@ const Paginations = ({
             <span key={page}> {page} </span>
           )
         )}
+        <Button
+          disabled={pages[pages?.length - 1] === currentPage}
+          onClick={getNextPage}
+          btnType="cancel"
+          btnStyleType="outlin"
+        >
+          <i className="fa-solid fa-chevron-right" />
+        </Button>
       </div>
       <h2>
         number of data : <span>{dataLength}</span>
       </h2>
-    </div>
+    </footer>
   );
 };
 

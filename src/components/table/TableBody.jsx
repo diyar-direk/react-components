@@ -68,7 +68,7 @@ const TableBody = ({
           {column?.map(
             (column) =>
               !column.hidden &&
-              (!column.allwoedTo || column.allwoedTo?.includes(role)) && (
+              (!column.allowedTo || column.allowedTo?.includes(role)) && (
                 <td key={column.name} className={column.className}>
                   {renderCell(column, row)}
                 </td>
@@ -79,14 +79,30 @@ const TableBody = ({
     [data, column, renderCell, selectable, selectedItems, role, selectRowId]
   );
 
+  const visibleColumnsCount = useMemo(() => {
+    return (
+      column?.filter(
+        (col) => !col.hidden && (!col.allowedTo || col.allowedTo.includes(role))
+      ).length + (selectable ? 1 : 0)
+    );
+  }, [column, role, selectable]);
+
   return (
     <tbody className={loading || rows ? "relative" : ""}>
       {loading ? (
-        <div className="table-loading"> loading </div>
+        <tr>
+          <td className="table-loading" colSpan={visibleColumnsCount}>
+            loading ...
+          </td>
+        </tr>
       ) : rows?.length > 0 ? (
         <>{rows}</>
       ) : (
-        <div className="table-loading">no data</div>
+        <tr>
+          <td className="no-data" colSpan={visibleColumnsCount}>
+            no data found
+          </td>
+        </tr>
       )}
     </tbody>
   );

@@ -5,12 +5,15 @@ import dateFormatter from "./../../../utils/dateFormatter";
 import { Link } from "react-router";
 import APIClient from "./../../../utils/ApiClient";
 import PopUp from "../../../components/popup/PopUp";
+import InputsContainer from "../../../components/tableFilters/InputsContainer";
+import Input from "../../../components/inputs/Input";
 
 const columns = [
   {
     name: "name",
     headerName: "name",
     sort: true,
+    allowedTo: ["user", "admin"],
   },
   {
     name: "createdAt",
@@ -79,7 +82,20 @@ const CategoriesTable = () => {
         selectedItems={selectedItems}
         setSelectedItems={setSelectedItems}
         delelteEndPoint="categories"
-      />
+        queryKey={categoriesQueryKey}
+        heading="categories"
+        addDataRoute="add_category"
+      >
+        <InputsContainer>
+          <Input title="test filter" />
+          <Input title="test filter" />
+        </InputsContainer>
+        <InputsContainer>
+          <Input title="test filter" />
+          <Input title="test filter" />
+          <Input title="test filter" />
+        </InputsContainer>
+      </Table>
     </>
   );
 };

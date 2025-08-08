@@ -6,7 +6,33 @@ import Paginations from "./Paginations";
 import ConfirmPopUp from "./../popup/ConfirmPopUp";
 import APIClient from "../../utils/ApiClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Button from "../button/Button";
+import TableToolBar from "./TableToolBar";
+
+/**
+ * @typedef TableProps
+ * @property {Array<object>} colmuns أعمدة الجدول
+ * @property {boolean} selectable هل يمكن تحديد الصفوف
+ * @property {boolean} loading حالة التحميل
+ * @property {number} currentPage رقم الصفحة الحالية
+ * @property {(page: number) => void} setPage دالة لتغيير الصفحة
+ * @property {Array<object>} data بيانات الجدول
+ * @property {number} dataLength عدد البيانات الكلي (لأجل الـ Pagination)
+ * @property {(sort: any) => void} setSort دالة لتحديد الفرز
+ * @property {Set<string|number>} selectedItems العناصر المحددة
+ * @property {(items: Set<string|number>) => void} setSelectedItems دالة لتغيير العناصر المحددة
+ * @property {string} delelteEndPoint رابط الـ API لحذف البيانات
+ * @property {string} queryKey مفتاح الكاش الخاص بـ react-query
+ * @property {string} heading عنوان الجدول
+ * @property {boolean} hideDeleteIconOnToolBar إخفاء أيقونة الحذف من شريط الأدوات
+ * @property {string} [addDataRoute] رابط إضافة البيانات (اختياري)
+ * @property {Array<React.ReactNode>} [addIcons] أيقونات إضافية على شريط الأدوات
+ * @property {React.ReactNode} [children] عناصر إضافية يتم عرضها داخل الـ TableToolBar
+ */
+
+/**
+ * @param {TableProps} props
+ */
+
 const Table = ({
   colmuns,
   selectable,
@@ -20,6 +46,11 @@ const Table = ({
   setSelectedItems,
   delelteEndPoint,
   queryKey,
+  heading,
+  hideDeleteIconOnToolBar,
+  addDataRoute,
+  addIcons,
+  children,
 }) => {
   const [columnsState, setColumnsState] = useState(colmuns || []);
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
@@ -48,48 +79,54 @@ const Table = ({
   }, [handleDelete, selectedItems]);
   return (
     <>
-      <div className="table">
-        <table>
-          <TableHeader
-            selectable={selectable}
-            setSelectedItems={setSelectedItems}
-            column={columnsState}
-            setSort={setSort}
-            data={data}
-            selectedItems={selectedItems}
-          />
-          <TableBody
-            loading={loading}
-            column={columnsState}
-            data={data}
-            selectable={selectable}
-            selectedItems={selectedItems}
-            setSelectedItems={setSelectedItems}
-            setIsPopUpOpen={setIsPopUpOpen}
-            isPopUpOpen={isPopUpOpen}
-          />
-        </table>
+      <div className="table-container">
+        <TableToolBar
+          heading={heading}
+          columns={columnsState}
+          setColumns={setColumnsState}
+          hideDeleteIcon={hideDeleteIconOnToolBar}
+          addDataRoute={addDataRoute}
+          selectedItems={selectedItems}
+          setIsPopUpOpen={setIsPopUpOpen}
+          addIcons={addIcons}
+          children={children}
+        />
+
+        <div className="table">
+          <table>
+            <TableHeader
+              selectable={selectable}
+              setSelectedItems={setSelectedItems}
+              column={columnsState}
+              setSort={setSort}
+              data={data}
+              selectedItems={selectedItems}
+            />
+            <TableBody
+              loading={loading}
+              column={columnsState}
+              data={data}
+              selectable={selectable}
+              selectedItems={selectedItems}
+              setSelectedItems={setSelectedItems}
+              setIsPopUpOpen={setIsPopUpOpen}
+              isPopUpOpen={isPopUpOpen}
+            />
+          </table>
+        </div>
+        <Paginations
+          currentPage={currentPage}
+          dataLength={dataLength}
+          setPage={setPage}
+          setSelectedItems={setSelectedItems}
+        />
       </div>
-      {selectedItems.size > 0 && (
-        <Button
-          btnStyleType="outlin"
-          btnType="delete"
-          onClick={() => setIsPopUpOpen(true)}
-        >
-          delete
-        </Button>
-      )}
+
       <ConfirmPopUp
         isOpen={isPopUpOpen}
         onClose={handleDeletePopUpClose}
         onConfirm={handleConfirmDelete}
         confirmButtonProps={{ isSending: handleDelete.isLoading }}
-      />
-      <Paginations
-        currentPage={currentPage}
-        dataLength={dataLength}
-        setPage={setPage}
-        setSelectedItems={setSelectedItems}
       />
     </>
   );

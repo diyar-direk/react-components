@@ -29,7 +29,7 @@ const TableHeader = ({
       column?.map(
         (th) =>
           !th.hidden &&
-          (!th.allowedto || th?.allowedto?.includes(role)) && (
+          (!th.allowedTo || th?.allowedTo?.includes(role)) && (
             <th key={th.headerName}>
               {typeof th.headerName === "function"
                 ? th.headerName()

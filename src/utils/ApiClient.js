@@ -24,5 +24,9 @@ class APIClient {
       data: { ids },
     });
   };
+  addData = async ({ data }) => {
+    const res = await axiosInstance.post(this.endPoint, data);
+    return res.data;
+  };
 }
 export default APIClient;
