@@ -59,14 +59,16 @@ const Paginations = ({
   return (
     <footer className="pagination">
       <div className="page-container">
-        <Button
-          disabled={currentPage === 1}
-          onClick={getPrevPage}
-          btnType="cancel"
-          btnStyleType="outlin"
-        >
-          <i className="fa-solid fa-chevron-left" />
-        </Button>
+        {dataLength > 0 && (
+          <Button
+            disabled={currentPage === 1}
+            onClick={getPrevPage}
+            btnType="cancel"
+            btnStyleType="outlin"
+          >
+            <i className="fa-solid fa-chevron-left" />
+          </Button>
+        )}
         {pages?.map((page) =>
           typeof page === "number" ? (
             <button
@@ -80,18 +82,22 @@ const Paginations = ({
             <span key={page}> {page} </span>
           )
         )}
-        <Button
-          disabled={pages[pages?.length - 1] === currentPage}
-          onClick={getNextPage}
-          btnType="cancel"
-          btnStyleType="outlin"
-        >
-          <i className="fa-solid fa-chevron-right" />
-        </Button>
+        {dataLength > 0 && (
+          <Button
+            disabled={pages[pages?.length - 1] === currentPage}
+            onClick={getNextPage}
+            btnType="cancel"
+            btnStyleType="outlin"
+          >
+            <i className="fa-solid fa-chevron-right" />
+          </Button>
+        )}
       </div>
-      <h2>
-        number of data : <span>{dataLength}</span>
-      </h2>
+      {dataLength > 0 && (
+        <h2>
+          number of data : <span>{dataLength}</span>
+        </h2>
+      )}
     </footer>
   );
 };
