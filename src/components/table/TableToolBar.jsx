@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import IconButton from "../buttons/IconButton";
-import { useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import TableFiltersContainer from "../tableFilters/TableFiltersContainer";
 
 const TableToolBar = ({
@@ -13,6 +13,7 @@ const TableToolBar = ({
   selectedItems,
   setIsPopUpOpen,
   addIcons,
+  setSearch,
 }) => {
   const handleDeleteClick = useCallback(
     () => setIsPopUpOpen(true),
@@ -37,7 +38,12 @@ const TableToolBar = ({
         {heading && <h2>{heading}</h2>}
         <div className="icons-container">
           <label htmlFor="search">
-            <input type="text" id="search" placeholder="search for" />
+            <input
+              type="text"
+              id="search"
+              placeholder="search for"
+              onInput={(e) => setSearch(e.target.value)}
+            />
             <i className="fa-solid fa-magnifying-glass" />
           </label>
           {!hideDeleteIcon && (
@@ -74,7 +80,7 @@ const TableToolBar = ({
   );
 };
 
-export default TableToolBar;
+export default memo(TableToolBar);
 
 const ShowRows = ({ columns, setColumns }) => {
   const [search, setSearch] = useState("");

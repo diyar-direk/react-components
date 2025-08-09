@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { limit } from "../../sections/categories/pages/CategoriesTable";
 import Button from "../buttons/Button";
 
@@ -102,4 +102,4 @@ const Paginations = ({
   );
 };
 
-export default Paginations;
+export default memo(Paginations);

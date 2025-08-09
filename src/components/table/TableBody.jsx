@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 
 const TableBody = ({
   loading,
@@ -108,4 +108,4 @@ const TableBody = ({
   );
 };
 
-export default TableBody;
+export default memo(TableBody);

@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { memo, useCallback, useMemo } from "react";
 
 const TableHeader = ({
   selectable,
@@ -75,4 +75,4 @@ const TableHeader = ({
   );
 };
 
-export default TableHeader;
+export default memo(TableHeader);

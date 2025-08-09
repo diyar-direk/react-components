@@ -4,18 +4,28 @@ class APIClient {
   constructor(endPoint) {
     this.endPoint = endPoint;
   }
-  getAll = async ({ page = 1, sort, limit = 10, ...params }) => {
+  getAll = async ({ page = 1, sort, limit = 10, filters, ...params }) => {
     const sortStatus = Object.values(sort)
       .map((v) => v)
-      .join(",");
+      .join(" , ");
+
+    const paramFilters = new URLSearchParams();
+
+    Object.entries({ ...filters, ...params, sortStatus, page, limit }).map(
+      ([key, value]) => {
+        if (key !== "from" && key !== "to")
+          value && paramFilters.append(key, value);
+        else {
+          if (key === "from" && value)
+            paramFilters.append("createdAt[gte]", value);
+          if (key === "to" && value)
+            paramFilters.append("createdAt[lte]", value);
+        }
+      }
+    );
 
     const { data } = await axiosInstance.get(this.endPoint, {
-      params: {
-        ...params,
-        limit,
-        page,
-        sort: sortStatus,
-      },
+      params: paramFilters,
     });
     return { data: data.data, totalCount: data.totalCount };
   };

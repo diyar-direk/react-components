@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import Table from "./../../../components/table/Table";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import dateFormatter from "./../../../utils/dateFormatter";
 import { Link } from "react-router";
 import APIClient from "./../../../utils/ApiClient";
 import PopUp from "../../../components/popup/PopUp";
-import InputsContainer from "../../../components/tableFilters/InputsContainer";
-import Input from "../../../components/inputs/Input";
+import CategoriesTableFilters from "../components/CategoriesTableFilters";
+import { useDebounce } from "use-debounce";
 
 const columns = [
   {
@@ -36,6 +36,19 @@ const columns = [
     sort: true,
   },
   {
+    name: "updatedAt",
+    headerName: "updatedAt",
+    getCell: ({ row }) => dateFormatter(row.updatedAt, "justYear"),
+    hidden: true,
+    sort: true,
+  },
+  {
+    name: "createdBy",
+    headerName: "createdBy",
+    allowedTo: ["admin"],
+    getCell: ({ row }) => row.createdBy?.username,
+  },
+  {
     name: "option",
     headerName: "options",
     getCell: ({ row, role, setSelectedItems, setIsPopUpOpen }) =>
@@ -63,9 +76,27 @@ const CategoriesTable = () => {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState({});
   const [selectedItems, setSelectedItems] = useState(new Set());
+  const [filters, setFilters] = useState({
+    from: "",
+    to: "",
+    createdBy: "",
+  });
+  const [search, setSearch] = useState("");
+  const [debouncedSearch] = useDebounce(search, 1000);
+  const queryKey = useMemo(
+    () => [
+      categoriesQueryKey,
+      page,
+      JSON.stringify(sort),
+      JSON.stringify(filters),
+      debouncedSearch,
+    ],
+    [page, sort, filters, debouncedSearch]
+  );
   const { data, isLoading } = useQuery({
-    queryKey: [categoriesQueryKey, page, sort],
-    queryFn: () => apiClient.getAll({ page, sort, limit }),
+    queryKey,
+    queryFn: () => apiClient.getAll({ page, sort, filters, limit, search }),
+    keepPreviousData: true,
   });
 
   return (
@@ -85,16 +116,9 @@ const CategoriesTable = () => {
         queryKey={categoriesQueryKey}
         heading="categories"
         addDataRoute="add_category"
+        setSearch={setSearch}
       >
-        <InputsContainer>
-          <Input title="test filter" />
-          <Input title="test filter" />
-        </InputsContainer>
-        <InputsContainer>
-          <Input title="test filter" />
-          <Input title="test filter" />
-          <Input title="test filter" />
-        </InputsContainer>
+        <CategoriesTableFilters filters={filters} setFilters={setFilters} />
       </Table>
     </>
   );

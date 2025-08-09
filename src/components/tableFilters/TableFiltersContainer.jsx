@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 
 const TableFiltersContainer = ({ isOpen, children }) => {
   const containerClassName = useMemo(
@@ -8,4 +8,4 @@ const TableFiltersContainer = ({ isOpen, children }) => {
   return <div className={containerClassName}> {children} </div>;
 };
 
-export default TableFiltersContainer;
+export default memo(TableFiltersContainer);

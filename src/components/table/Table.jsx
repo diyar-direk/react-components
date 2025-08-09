@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 import "./table.css";
@@ -18,6 +18,7 @@ import TableToolBar from "./TableToolBar";
  * @property {Array<object>} data بيانات الجدول
  * @property {number} dataLength عدد البيانات الكلي (لأجل الـ Pagination)
  * @property {(sort: any) => void} setSort دالة لتحديد الفرز
+ * @property {(search: string) => void} setSearch دالة للبحث
  * @property {Set<string|number>} selectedItems العناصر المحددة
  * @property {(items: Set<string|number>) => void} setSelectedItems دالة لتغيير العناصر المحددة
  * @property {string} delelteEndPoint رابط الـ API لحذف البيانات
@@ -51,15 +52,24 @@ const Table = ({
   addDataRoute,
   addIcons,
   children,
+  setSearch,
 }) => {
   const [columnsState, setColumnsState] = useState(colmuns || []);
+
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+
   const handleDeletePopUpClose = useCallback(() => {
     setSelectedItems(new Set());
     setIsPopUpOpen(false);
   }, [setSelectedItems]);
-  const apiClient = new APIClient(delelteEndPoint);
+
+  const apiClient = useMemo(
+    () => new APIClient(delelteEndPoint),
+    [delelteEndPoint]
+  );
+
   const queryclient = useQueryClient();
+
   const handleDelete = useMutation({
     mutationKey: [queryKey],
     mutationFn: (data) => apiClient.deleteAll({ ids: data }),
@@ -74,9 +84,11 @@ const Table = ({
       });
     },
   });
+
   const handleConfirmDelete = useCallback(() => {
     handleDelete.mutate([...selectedItems]);
   }, [handleDelete, selectedItems]);
+
   return (
     <>
       <div className="table-container">
@@ -90,6 +102,7 @@ const Table = ({
           setIsPopUpOpen={setIsPopUpOpen}
           addIcons={addIcons}
           children={children}
+          setSearch={setSearch}
         />
 
         <div className="table">
@@ -132,4 +145,4 @@ const Table = ({
   );
 };
 
-export default Table;
+export default memo(Table);

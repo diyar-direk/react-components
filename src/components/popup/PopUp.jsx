@@ -4,16 +4,27 @@
  * @property {() => void} [onClose]
  */
 
+import { memo, useMemo } from "react";
+
 /**
- * @param {divProps} props
+ * @param {divProps & React.HTMLAttributes<HTMLDivElement>} props
  */
-const PopUp = ({ isOpen = false, onClose = () => {}, children, ...props }) => {
+const PopUp = ({
+  isOpen = false,
+  onClose = () => {},
+  className,
+  children,
+  ...props
+}) => {
+  const popupClassName = useMemo(() => `popup ${className || ""}`, [className]);
   if (isOpen)
     return (
-      <div className="overlay" {...props} onClick={onClose}>
-        <div className="popup">{children}</div>
+      <div className="overlay" onClick={onClose}>
+        <div className={popupClassName} {...props}>
+          {children}
+        </div>
       </div>
     );
 };
 
-export default PopUp;
+export default memo(PopUp);

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Button from "../buttons/Button";
 import "./popups.css";
 
@@ -51,4 +52,4 @@ const ConfirmPopUp = ({
   );
 };
 
-export default ConfirmPopUp;
+export default memo(ConfirmPopUp);

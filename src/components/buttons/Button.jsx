@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import "./button.css";
 
 /**
@@ -49,4 +49,4 @@ const Button = ({
   );
 };
 
-export default Button;
+export default memo(Button);

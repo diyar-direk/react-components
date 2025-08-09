@@ -1,5 +1,7 @@
-const InputsContainer = ({ children }) => {
-  return <div>{children}</div>;
+import { memo } from "react";
+
+const InputsContainer = ({ children, ...props }) => {
+  return <div {...props}>{children}</div>;
 };
 
-export default InputsContainer;
+export default memo(InputsContainer);
