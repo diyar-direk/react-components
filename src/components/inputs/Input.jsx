@@ -41,7 +41,11 @@ const Input = ({
         <input id={props.name} type="text" {...props} />
       )}
 
-      {errorText && <p {...helperTextProps}>{errorText}</p>}
+      {errorText && (
+        <p className="color-red" {...helperTextProps}>
+          {errorText}
+        </p>
+      )}
     </div>
   );
 };

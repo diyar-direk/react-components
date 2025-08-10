@@ -6,9 +6,8 @@ import PopUp from "../popup/PopUp";
 function UploadPhoto({
   onChange = () => {},
   title = "",
-  error,
   name = "",
-  helperText,
+  errorText,
   value,
   accept = "image/png, image/jpeg, image/jpg",
 }) {
@@ -117,7 +116,7 @@ function UploadPhoto({
             hidden
             accept={accept}
           />
-          {error && <span className="error-text">{helperText}</span>}
+          {errorText && <span className="color-red">{errorText}</span>}
         </div>
       </div>
 

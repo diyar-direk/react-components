@@ -7,6 +7,8 @@ import { useNavigate } from "react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { categoriesQueryKey } from "./CategoriesTable";
 import UploadPhoto from "../../../components/inputs/UploadPhoto";
+import SelectOptionInput from "../../../components/inputs/SelectOptionInput ";
+import { useMemo } from "react";
 
 const AddCategory = () => {
   const nav = useNavigate(-1);
@@ -26,20 +28,42 @@ const AddCategory = () => {
     initialValues: {
       name: "",
       image: "",
+      test: "",
     },
     validationSchema: categoriesSchema,
     onSubmit: async (values) => await handleSubmit.mutateAsync(values),
   });
+  const options = useMemo(
+    () => [
+      {
+        text: "front text",
+        value: "enum value",
+      },
+      {
+        text: "front text 2",
+        value: "enum value",
+        onSelectOption: () => formik.setFieldValue("test", "diyar"),
+      },
+    ],
+    [formik]
+  );
 
   return (
     <>
+      <SelectOptionInput
+        label="test"
+        placeholder="input placeholder"
+        value={formik.values.test}
+        options={options}
+        onSelectOption={(option) => formik.setFieldValue("test", option.value)}
+        errorText="dlsadklas"
+      />
       <UploadPhoto
         name="image"
         title="porfile"
         value={formik.values.image}
         onChange={(val) => formik.setFieldValue("image", val)}
-        error={formik.touched.image && formik.errors.image}
-        helperText={formik.touched.image && formik.errors.image}
+        errorText={formik.touched.image && formik.errors.image}
       />
       <form onSubmit={formik.handleSubmit}>
         <Input
