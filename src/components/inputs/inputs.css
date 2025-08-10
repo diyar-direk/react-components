@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 10px;
 }
-.select-input label {
+.select-input label.title {
   text-transform: capitalize;
   width: fit-content;
   cursor: text;
@@ -32,6 +32,9 @@
   max-height: 0px;
   overflow: hidden;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .select-input > div article.active {
   max-height: 200px;
@@ -42,7 +45,29 @@
   padding: 8px 10px;
   cursor: pointer;
   font-size: 15px;
+  width: 100%;
 }
 .select-input > div article h3:hover {
   background-color: var(--aside-color);
+}
+.select-input > div article label {
+  width: 98%;
+  background: var(--section-color);
+  padding: 7px;
+  font-size: 15px;
+  border-radius: 5px;
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: text;
+  input {
+    flex: 1;
+    background-color: transparent;
+    border: none;
+  }
+}
+.select-input .array-of-values {
+  display: flex;
+  gap: 5px;
 }

@@ -8,7 +8,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { categoriesQueryKey } from "./CategoriesTable";
 import UploadPhoto from "../../../components/inputs/UploadPhoto";
 import SelectOptionInput from "../../../components/inputs/SelectOptionInput ";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
+import SelectInputApi from "../../../components/inputs/SelectInputApi";
 
 const AddCategory = () => {
   const nav = useNavigate(-1);
@@ -29,6 +30,7 @@ const AddCategory = () => {
       name: "",
       image: "",
       test: "",
+      diyar: "",
     },
     validationSchema: categoriesSchema,
     onSubmit: async (values) => await handleSubmit.mutateAsync(values),
@@ -57,6 +59,18 @@ const AddCategory = () => {
         options={options}
         onSelectOption={(option) => formik.setFieldValue("test", option.value)}
         errorText="dlsadklas"
+      />
+      <SelectInputApi
+        label="dasds"
+        placeholder="dsa"
+        endPoint={categoriesQueryKey}
+        queryKey={categoriesQueryKey}
+        optionLabel={(option) => option?.name}
+        onChange={(option) => formik.setFieldValue("diyar", option.name)}
+        value={["diyar", "diyar2"]}
+        errorText="dlsadklas"
+        onIgnore={() => formik.setFieldValue("diyar", "")}
+        isArray
       />
       <UploadPhoto
         name="image"
@@ -87,4 +101,4 @@ const AddCategory = () => {
   );
 };
 
-export default AddCategory;
+export default memo(AddCategory);

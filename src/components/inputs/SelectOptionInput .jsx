@@ -38,15 +38,22 @@ const SelectOptionInput = ({
   );
 
   useEffect(() => {
-    const onBodyClick = window.addEventListener("click", () => {
+    const onBodyClick = () => {
       if (isOpen) setIsOpen(false);
-    });
-    return () => window.removeEventListener("click", onBodyClick);
+    };
+
+    window.addEventListener("click", onBodyClick);
+
+    return () => {
+      window.removeEventListener("click", onBodyClick);
+    };
   }, [isOpen]);
 
   return (
     <div className="select-input">
-      <label onClick={toggelOptionArea}>{label}</label>
+      <label onClick={toggelOptionArea} className="title">
+        {label}
+      </label>
       <div>
         <div onClick={toggelOptionArea}>
           {placeholder} <i className="fa-solid fa-chevron-down"></i>

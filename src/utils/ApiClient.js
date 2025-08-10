@@ -5,13 +5,15 @@ class APIClient {
     this.endPoint = endPoint;
   }
   getAll = async ({ page = 1, sort, limit = 10, filters, ...params }) => {
-    const sortStatus = Object.values(sort)
-      .map((v) => v)
-      .join(" , ");
+    const sortStatus = sort
+      ? Object.values(sort)
+          .map((v) => v)
+          .join(" , ")
+      : "";
 
     const paramFilters = new URLSearchParams();
 
-    Object.entries({ ...filters, ...params, sortStatus, page, limit }).map(
+    Object.entries({ ...filters, ...params, sortStatus, page, limit }).forEach(
       ([key, value]) => {
         if (key !== "from" && key !== "to")
           value && paramFilters.append(key, value);
@@ -27,6 +29,7 @@ class APIClient {
     const { data } = await axiosInstance.get(this.endPoint, {
       params: paramFilters,
     });
+
     return { data: data.data, totalCount: data.totalCount };
   };
   deleteAll = async ({ ids }) => {
