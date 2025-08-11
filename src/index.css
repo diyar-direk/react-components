@@ -76,3 +76,6 @@ form {
 .relative {
   position: relative;
 }
+.color-red {
+  color: red;
+}

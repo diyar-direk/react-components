@@ -8,29 +8,34 @@ class APIClient {
     const sortStatus = sort
       ? Object.values(sort)
           .map((v) => v)
-          .join(" , ")
+          .join(",")
       : "";
-
     const paramFilters = new URLSearchParams();
-
-    Object.entries({ ...filters, ...params, sortStatus, page, limit }).forEach(
-      ([key, value]) => {
-        if (key !== "from" && key !== "to")
-          value && paramFilters.append(key, value);
-        else {
-          if (key === "from" && value)
-            paramFilters.append("createdAt[gte]", value);
-          if (key === "to" && value)
-            paramFilters.append("createdAt[lte]", value);
-        }
+    Object.entries({
+      ...filters,
+      ...params,
+      sort: sortStatus,
+      page,
+      limit,
+    }).forEach(([key, value]) => {
+      if (key !== "from" && key !== "to")
+        value && paramFilters.append(key, value);
+      else {
+        if (key === "from" && value)
+          paramFilters.append("createdAt[gte]", value);
+        if (key === "to" && value) paramFilters.append("createdAt[lte]", value);
       }
-    );
+    });
 
     const { data } = await axiosInstance.get(this.endPoint, {
       params: paramFilters,
     });
 
     return { data: data.data, totalCount: data.totalCount };
+  };
+  getOne = async ({ id }) => {
+    const { data } = await axiosInstance.get(`${this.endPoint}/${id}`);
+    return data;
   };
   deleteAll = async ({ ids }) => {
     await axiosInstance.delete(this.endPoint, {
@@ -39,6 +44,10 @@ class APIClient {
   };
   addData = async ({ data }) => {
     const res = await axiosInstance.post(this.endPoint, data);
+    return res.data;
+  };
+  updateData = async ({ data, id }) => {
+    const res = await axiosInstance.patch(`${this.endPoint}/${id}`, data);
     return res.data;
   };
 }
