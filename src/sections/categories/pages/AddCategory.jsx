@@ -89,7 +89,7 @@ const AddCategory = () => {
           placeholder="write category name"
         />
         <Button
-          btnStyleType="outlin"
+          btnStyleType="outlined"
           btnType="save"
           isSending={formik.isSubmitting}
           className="popup-btn"

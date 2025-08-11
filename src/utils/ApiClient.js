@@ -35,7 +35,7 @@ class APIClient {
   };
   getOne = async ({ id }) => {
     const { data } = await axiosInstance.get(`${this.endPoint}/${id}`);
-    return data;
+    return data.data;
   };
   deleteAll = async ({ ids }) => {
     await axiosInstance.delete(this.endPoint, {

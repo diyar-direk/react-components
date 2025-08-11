@@ -19,7 +19,7 @@ const Login = () => {
     },
     onSuccess: (data) => {
       login(data);
-      nav("/");
+      nav(-1);
     },
   });
   const formik = useFormik({
@@ -53,7 +53,7 @@ const Login = () => {
       <Button
         type="submit"
         btnType="save"
-        btnStyleType="outlin"
+        btnStyleType="outlined"
         isSending={mutation.isPending}
       >
         Login

@@ -64,7 +64,7 @@ const Paginations = ({
             disabled={currentPage === 1}
             onClick={getPrevPage}
             btnType="cancel"
-            btnStyleType="outlin"
+            btnStyleType="outlined"
           >
             <i className="fa-solid fa-chevron-left" />
           </Button>
@@ -87,7 +87,7 @@ const Paginations = ({
             disabled={pages[pages?.length - 1] === currentPage}
             onClick={getNextPage}
             btnType="cancel"
-            btnStyleType="outlin"
+            btnStyleType="outlined"
           >
             <i className="fa-solid fa-chevron-right" />
           </Button>

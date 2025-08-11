@@ -6,12 +6,13 @@ import { useNavigate, useParams } from "react-router";
 import APIClient from "../../../utils/ApiClient";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { categoriesQueryKey } from "./CategoriesTable";
+import Skeleton from "react-loading-skeleton";
 
 const UpdateCategory = () => {
   const nav = useNavigate(-1);
   const { id } = useParams();
   const apiClient = new APIClient(`categories`);
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: [categoriesQueryKey, id],
     queryFn: () => apiClient.getOne({ id }),
   });
@@ -28,13 +29,14 @@ const UpdateCategory = () => {
     },
   });
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      name: "",
+      name: data?.name || "",
     },
     validationSchema: categoriesSchema,
-    onSubmit: async (values) => await handleSubmit.mutateAsync(values),
+    onSubmit: (values) => handleSubmit.mutate(values),
   });
-
+  if (isLoading) return <Skeleton height="200px" width="100%" />;
   return (
     <form onSubmit={formik.handleSubmit}>
       <Input
@@ -46,7 +48,7 @@ const UpdateCategory = () => {
         placeholder="write category name"
       />
       <Button
-        btnStyleType="outlin"
+        btnStyleType="outlined"
         btnType="save"
         isSending={formik.isSubmitting}
         className="popup-btn"

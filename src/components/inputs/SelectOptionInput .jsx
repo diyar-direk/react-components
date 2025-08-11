@@ -67,7 +67,7 @@ const SelectOptionInput = ({
         </article>
       </div>
       {value && (
-        <Button onClick={onIgnore} btnStyleType="outlin" btnType="delete">
+        <Button onClick={onIgnore} btnStyleType="outlined" btnType="delete">
           {value}
         </Button>
       )}

@@ -133,7 +133,7 @@ function UploadPhoto({
             onClick={() => window.open(value?.url, "_blank")}
           />
           <Button
-            btnStyleType="outlin"
+            btnStyleType="outlined"
             onClick={() => setOpen(false)}
             btnType="delete"
           >

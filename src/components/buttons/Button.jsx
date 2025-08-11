@@ -7,7 +7,7 @@ import "./button.css";
  * @property {boolean} isSending
  * @property {string} isSendingText
  * @property {string} className
- * @property {"containd" | "outlin"} btnStyleType
+ * @property {"contained" | "outlined"} btnStyleType
  * @property {"delete" | "main" | "save" | "cancel"} btnType
  */
 
@@ -19,7 +19,7 @@ const Button = ({
   isSending = false,
   isSendingText = "",
   children,
-  btnStyleType = "containd",
+  btnStyleType = "contained",
   btnType = "main",
   className = "",
   ...props

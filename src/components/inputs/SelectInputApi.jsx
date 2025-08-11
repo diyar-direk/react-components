@@ -130,7 +130,7 @@ const SelectInputApi = ({
             <Button
               onClick={() => onIgnore(span)}
               key={span._id || i}
-              btnStyleType="outlin"
+              btnStyleType="outlined"
               btnType="delete"
             >
               {typeof span === "string" ? span : optionLabel(span)}
@@ -140,7 +140,7 @@ const SelectInputApi = ({
       ) : (
         !isArray &&
         value && (
-          <Button onClick={onIgnore} btnStyleType="outlin" btnType="delete">
+          <Button onClick={onIgnore} btnStyleType="outlined" btnType="delete">
             {value}
           </Button>
         )

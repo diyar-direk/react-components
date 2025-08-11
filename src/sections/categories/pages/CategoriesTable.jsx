@@ -62,7 +62,7 @@ const columns = [
             className="fa-solid fa-trash-can"
             title="delete"
           />
-          <Link to={`${row._id}`} title="update">
+          <Link to={`/update_category/${row._id}`} title="update">
             <i className="fa-solid fa-pen-to-square" />
           </Link>
         </>

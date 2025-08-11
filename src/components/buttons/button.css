@@ -33,21 +33,21 @@
   --btn-hover: #464646;
 }
 
-.btn.containd {
+.btn.contained {
   background-color: var(--btn-bg);
   color: white;
   border: solid 1px transparent;
 }
-.btn.containd:hover {
+.btn.contained:hover {
   background-color: var(--btn-hover);
 }
 
-.btn.outlin {
+.btn.outlined {
   background-color: transparent;
   border: solid 1px var(--btn-border);
   color: var(--btn-border);
 }
-.btn.outlin:hover {
+.btn.outlined:hover {
   background-color: var(--btn-border);
   color: white;
 }
@@ -64,10 +64,10 @@ button.sending:disabled {
   border-radius: 50%;
   animation: loader 1s infinite linear;
 }
-.btn.sending.containd article {
+.btn.sending.contained article {
   border-color: white white white #9b9b9b;
 }
-.btn.sending.outlin article {
+.btn.sending.outlined article {
   border-color: var(--btn-bg) var(--btn-bg) var(--btn-bg) #9b9b9b;
 }
 
