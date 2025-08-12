@@ -13,6 +13,7 @@ import TableToolBar from "./TableToolBar";
  * @property {Array<object>} colmuns أعمدة الجدول
  * @property {boolean} selectable هل يمكن تحديد الصفوف
  * @property {boolean} loading حالة التحميل
+ * @property {boolean} hidefilterIcon
  * @property {number} currentPage رقم الصفحة الحالية
  * @property {(page: number) => void} setPage دالة لتغيير الصفحة
  * @property {Array<object>} data بيانات الجدول
@@ -53,6 +54,7 @@ const Table = ({
   addIcons,
   children,
   setSearch,
+  hidefilterIcon,
 }) => {
   const [columnsState, setColumnsState] = useState(colmuns || []);
 
@@ -103,6 +105,7 @@ const Table = ({
           addIcons={addIcons}
           children={children}
           setSearch={setSearch}
+          hidefilterIcon={hidefilterIcon}
         />
 
         <div className="table">

@@ -3,6 +3,7 @@ import { Toaster } from "react-hot-toast";
 import categoriesRouter from "../sections/categories/router";
 import { AuthProvider } from "../context/AuthContext";
 import loginRouter from "../sections/login/router";
+import protectedRouter from "../sections/users/prottectedRouter";
 
 const AppRouter = () => {
   const router = createBrowserRouter([
@@ -16,7 +17,7 @@ const AppRouter = () => {
           </AuthProvider>
         </>
       ),
-      children: [...categoriesRouter, ...loginRouter],
+      children: [...categoriesRouter, ...loginRouter, ...protectedRouter],
     },
   ]);
   return <RouterProvider router={router} />;

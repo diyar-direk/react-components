@@ -14,6 +14,7 @@ const TableToolBar = ({
   setIsPopUpOpen,
   addIcons,
   setSearch,
+  hidefilterIcon,
 }) => {
   const handleDeleteClick = useCallback(
     () => setIsPopUpOpen(true),
@@ -61,21 +62,25 @@ const TableToolBar = ({
               <Link to={addDataRoute} className="fa-solid fa-plus" />
             </IconButton>
           )}
-          <IconButton
-            onClick={toggelFiltersArea}
-            placement="bottom"
-            title="filters"
-            color={filtersIconColor}
-          >
-            <i className="fa-solid fa-filter" />
-          </IconButton>
+          {!hidefilterIcon && (
+            <IconButton
+              onClick={toggelFiltersArea}
+              placement="bottom"
+              title="filters"
+              color={filtersIconColor}
+            >
+              <i className="fa-solid fa-filter" />
+            </IconButton>
+          )}
           {addIcons}
           <ShowRows columns={columns} setColumns={setColumns} />
         </div>
       </header>
-      <TableFiltersContainer isOpen={filterArea}>
-        {children}
-      </TableFiltersContainer>
+      {!hidefilterIcon && (
+        <TableFiltersContainer isOpen={filterArea}>
+          {children}
+        </TableFiltersContainer>
+      )}
     </>
   );
 };
